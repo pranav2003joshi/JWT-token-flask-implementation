@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Token</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center-align the content */
+        }
+        
+        h1 {
+            color: #00FF00; /* Green */
+            font-size: 24px; /* Make font bigger */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px; /* Make font bigger */
+        }
+        
+        input[type="text"] {
+            width: 50%; /* Make input box smaller */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #00FF00; /* Green */
+            background-color: #444;
+            color: #fff;
+            font-size: 16px; /* Make font bigger */
+        }
+        
+        button[type="submit"] {
+            padding: 20px 20px;
+            background-color: #00FF00; /* Green */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px; /* Make font bigger */
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #00cc00; /* Darker green */
+        }
+        
+        #tokenResult {
+            margin-top: 20px;
+            color: #00FF00; /* Green */
+            font-size: 16px; /* Make font bigger */
+        }
+    </style>
+</head>
+<body>
+    <h1>Generate JWT Token</h1>
+    <form id="tokenForm">
+        <label for="userId">User ID</label>
+        <input type="text" id="userId" name="userId">
+        
+        <label for="userType">User Type</label>
+        <input type="text" id="userType" name="userType">
+        
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username">
+
+        <div><button type="submit">Generate Token</button></div> 
+    </form>
+
+    <div id="tokenResult"></div>
+
+    <script>
+        document.getElementById('tokenForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var userId = document.getElementById('userId').value;
+            var userType = document.getElementById('userType').value;
+            var username = document.getElementById('username').value;
+            
+            var data = {
+                'user_id': userId,
+                'user_type': userType,
+                'username': username
+            };
+            
+            fetch('/generate_token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('tokenResult').innerHTML = 'Generated Token: ' + data.code;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

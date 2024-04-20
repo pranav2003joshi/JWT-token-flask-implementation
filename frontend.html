@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI JWT Auth</title>
+</head>
+<body>
+    <h1>FastAPI JWT Authentication Demo</h1>
+    <button onclick="callProtectedAPI()">Call Protected API</button>
+    <div id="output"></div>
+    <script>
+        async function callProtectedAPI() {
+            const token = prompt("Enter your token:");
+            const response = await fetch('http://127.0.0.1:8000/protected', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+            const data = await response.json();
+            document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
